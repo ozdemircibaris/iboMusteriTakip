@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { fetchSeans } from '../actions/seansListAction';
-import { Table } from 'semantic-ui-react';
+import { Table, Button } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css'
 import IndexContent from './IndexContent';
 
@@ -12,6 +13,9 @@ class Index extends Component {
     render() {
         return (
             <div>
+                <Button as={Link} to="/newSeans" >
+                    Yeni Seans
+                </Button>
                 <Table columns="14" celled inverted>
                     <Table.Header>
                         <Table.Cell textAlign="center">id</Table.Cell>

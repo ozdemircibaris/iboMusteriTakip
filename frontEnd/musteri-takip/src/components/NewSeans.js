@@ -20,6 +20,8 @@ import moment from 'moment';
 import 'moment/locale/tr';
 import 'semantic-ui-css/semantic.min.css';
 import '../App.css';
+import { Link } from 'react-router-dom';
+
 class NewSeans extends Component {
     constructor(){
         super();
@@ -200,7 +202,7 @@ class NewSeans extends Component {
                             onChange={this.onUserBalanceChange}
                             onClick={this.onUserBalanceChange}
                             value={this.props.userBalanceInput} />
-                        <Button onClick={this.onAddSeans} inverted color="green">
+                        <Button as={Link} to="/" onClick={this.onAddSeans} inverted color="green">
                             Ekle
                         </Button>
                     </Form>
