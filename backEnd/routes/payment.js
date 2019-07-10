@@ -8,26 +8,26 @@ const db         = require('../db');
 router.use(bodyParser.json())
 
 router.get('/', (req, res, next) => {
-    db.UserModel.findAll().then((users) => {
-    res.json(users);
+    db.PaymentModel.findAll().then((payment) => {
+    res.json(payment);
   })
 });
 
 router.get('/:id', (req, res, next) => {
-  let userId = req.params.id;
-  db.UserModel.findOne({
+  let paymentId = req.params.id;
+  db.PaymentModel.findOne({
     where: {
-      id: userId
+      id: paymentId
     }
-  }).then((users) => {
-    res.json(users);
+  }).then((payment) => {
+    res.json(payment);
   })
 });
 
 
 router.post('/', (req, res, next) => {
-  let body = _.pick(req.body, "ad", "phone", "address", "userBalance");
-  db.UserModel.create(body).then((user) => {
+  let body = _.pick(req.body, "paymentMethod");
+  db.PaymentModel.create(body).then((user) => {
     res.json(user.toJSON());
   }, (e) => {
     return res.status(500)
@@ -35,26 +35,17 @@ router.post('/', (req, res, next) => {
 })
 
 router.put('/:id', (req, res, next) => {
-  let userId     = req.params.id;
-  let body       = _.pick(req.body, "ad", "phone", "address", "userBalance");
+  let paymentId  = req.params.id;
+  let body       = _.pick(req.body, "paymentMethod");
   let attributes = {};
 
-  if(body.hasOwnProperty("ad")){
-      attributes.ad = body.ad;
-  }
-  if(body.hasOwnProperty("phone")){
-      attributes.phone = body.phone;
-  }
-  if(body.hasOwnProperty("address")){
-    attributes.address = body.address;
-}
-  if(body.hasOwnProperty("userBalance")){              // istediğin alanı istediğin gibi güncelle
-      attributes.userBalance = body.userBalance;
-  }
+  if(body.hasOwnProperty("paymentMethod")){
+        attributes.ad = body.ad;
+    }
 
-  db.UserModel.findOne({
+  db.PaymentModel.findOne({
       where: {
-          id: userId
+          id: paymentId
       }
   }).then((user) => {
       if(user){
@@ -74,10 +65,10 @@ router.put('/:id', (req, res, next) => {
 })
 
 router.delete('/:id', (req, res, next) => {
-  let userId = req.params.id;
-  db.UserModel.destroy({
+  let paymentId = req.params.id;
+  db.PaymentModel.destroy({
     where: {
-      id: userId
+      id: paymentId
     }
   }).then((rowDeleted) => {
     if(rowDeleted === 0){

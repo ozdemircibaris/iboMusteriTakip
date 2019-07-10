@@ -3,31 +3,31 @@ const router     = express.Router();
 const bodyParser = require('body-parser');
 const _          = require('underscore');
 const db         = require('../db');
-/* GET users listing. */
+/* GET seans listing. */
 
 router.use(bodyParser.json())
 
 router.get('/', (req, res, next) => {
-    db.UserModel.findAll().then((users) => {
-    res.json(users);
+    db.SeansModel.findAll().then((seans) => {
+    res.json(seans);
   })
 });
 
 router.get('/:id', (req, res, next) => {
   let userId = req.params.id;
-  db.UserModel.findOne({
+  db.SeansModel.findOne({
     where: {
       id: userId
     }
-  }).then((users) => {
-    res.json(users);
+  }).then((seans) => {
+    res.json(seans);
   })
 });
 
 
 router.post('/', (req, res, next) => {
-  let body = _.pick(req.body, "ad", "phone", "address", "userBalance");
-  db.UserModel.create(body).then((user) => {
+  let body = _.pick(req.body, "description", "seansDate", "count", "nextSeans", "seansPrice", "userId", "paymentId");
+  db.SeansModel.create(body).then((user) => {
     res.json(user.toJSON());
   }, (e) => {
     return res.status(500)
@@ -35,26 +35,35 @@ router.post('/', (req, res, next) => {
 })
 
 router.put('/:id', (req, res, next) => {
-  let userId     = req.params.id;
-  let body       = _.pick(req.body, "ad", "phone", "address", "userBalance");
+  let seansId     = req.params.id;
+  let body       = _.pick(req.body, "description", "seansDate", "count", "nextSeans", "seansPrice", "userId", "paymentId");
   let attributes = {};
 
-  if(body.hasOwnProperty("ad")){
-      attributes.ad = body.ad;
+  if(body.hasOwnProperty("description")){
+      attributes.description = body.description;
   }
-  if(body.hasOwnProperty("phone")){
-      attributes.phone = body.phone;
+  if(body.hasOwnProperty("seansDate")){
+      attributes.seansDate = body.seansDate;
   }
-  if(body.hasOwnProperty("address")){
-    attributes.address = body.address;
-}
-  if(body.hasOwnProperty("userBalance")){              // istediğin alanı istediğin gibi güncelle
-      attributes.userBalance = body.userBalance;
+  if(body.hasOwnProperty("count")){
+    attributes.count = body.count;
+  }
+  if(body.hasOwnProperty("nextSeans")){              // istediğin alanı istediğin gibi güncelle
+      attributes.nextSeans = body.nextSeans;
+  }
+  if(body.hasOwnProperty("seansPrice")){              // istediğin alanı istediğin gibi güncelle
+    attributes.seansPrice = body.seansPrice;
+  }
+  if(body.hasOwnProperty("userId")){              // istediğin alanı istediğin gibi güncelle
+    attributes.userId = body.userId;
+  }
+  if(body.hasOwnProperty("paymentId")){              // istediğin alanı istediğin gibi güncelle
+    attributes.paymentId = body.paymentId;
   }
 
-  db.UserModel.findOne({
+  db.SeansModel.findOne({
       where: {
-          id: userId
+          id: seansId
       }
   }).then((user) => {
       if(user){
@@ -75,7 +84,7 @@ router.put('/:id', (req, res, next) => {
 
 router.delete('/:id', (req, res, next) => {
   let userId = req.params.id;
-  db.UserModel.destroy({
+  db.SeansModel.destroy({
     where: {
       id: userId
     }

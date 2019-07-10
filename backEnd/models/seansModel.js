@@ -9,11 +9,8 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false,
         },
         count: {
-            type: Sequelize.STRING,
+            type: Sequelize.INTEGER,
             allowNull: false,
-            validate: {
-                len: [2, 250],
-            }
         },
         nextSeans: {
             type: Sequelize.DATE,
@@ -22,6 +19,12 @@ module.exports = (sequelize, Sequelize) => {
         seansPrice: {
             type: Sequelize.INTEGER,
             allowNull: false
+        },
+        userId: {
+            type: Sequelize.INTEGER
+        },
+        paymentId: {
+            type: Sequelize.INTEGER
         }
     },
     {
