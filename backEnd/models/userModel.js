@@ -12,9 +12,6 @@ module.exports = (sequelize, Sequelize) => {
         address: {
             type: Sequelize.STRING,
             allowNull: false,
-            validate: {
-                len: [2, 250],
-            }
         },
         userBalance: {
             type: Sequelize.INTEGER,

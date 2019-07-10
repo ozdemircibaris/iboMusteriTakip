@@ -20,6 +20,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
             allowNull: false
         },
+        seansPaid: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
         userId: {
             type: Sequelize.INTEGER
         },

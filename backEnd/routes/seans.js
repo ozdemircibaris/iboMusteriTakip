@@ -8,8 +8,12 @@ const db         = require('../db');
 router.use(bodyParser.json())
 
 router.get('/', (req, res, next) => {
-    db.SeansModel.findAll().then((seans) => {
-    res.json(seans);
+  db.sequelize.query(`SELECT seansModel.id, userModel.ad, userModel.phone, userModel.address, userModel.userBalance, seansModel.description, seansModel.seansDate, seansModel.count, seansModel.nextSeans, seansModel.seansPrice, seansModel.seansPaid, paymentModel.paymentMethod
+  FROM (( seansModel
+    INNER JOIN userModel ON seansModel.userId = userModel.id)
+    INNER JOIN paymentModel ON seansModel.paymentId = paymentModel.id)`, { type: db.sequelize.QueryTypes.SELECT })
+  .then((seans) => {
+      res.json(seans)
   })
 });
 
@@ -26,7 +30,7 @@ router.get('/:id', (req, res, next) => {
 
 
 router.post('/', (req, res, next) => {
-  let body = _.pick(req.body, "description", "seansDate", "count", "nextSeans", "seansPrice", "userId", "paymentId");
+  let body = _.pick(req.body, "description", "seansDate", "count", "nextSeans", "seansPrice", "seansPaid", "userId", "paymentId");
   db.SeansModel.create(body).then((user) => {
     res.json(user.toJSON());
   }, (e) => {
@@ -36,7 +40,7 @@ router.post('/', (req, res, next) => {
 
 router.put('/:id', (req, res, next) => {
   let seansId     = req.params.id;
-  let body       = _.pick(req.body, "description", "seansDate", "count", "nextSeans", "seansPrice", "userId", "paymentId");
+  let body       = _.pick(req.body, "description", "seansDate", "count", "nextSeans", "seansPrice", "seansPaid", "userId", "paymentId");
   let attributes = {};
 
   if(body.hasOwnProperty("description")){
@@ -53,6 +57,9 @@ router.put('/:id', (req, res, next) => {
   }
   if(body.hasOwnProperty("seansPrice")){              // istediğin alanı istediğin gibi güncelle
     attributes.seansPrice = body.seansPrice;
+  }
+  if(body.hasOwnProperty("seansPaid")){              // istediğin alanı istediğin gibi güncelle
+    attributes.seansPaid = body.seansPaid;
   }
   if(body.hasOwnProperty("userId")){              // istediğin alanı istediğin gibi güncelle
     attributes.userId = body.userId;
