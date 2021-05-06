@@ -16,6 +16,6 @@
     "mysql": "^2.17.1",
     "mysql2": "^1.6.5",
     "sequelize": "^5.9.4",
-    "underscore": "^1.9.1"
+    "underscore": "^1.12.1"
   }
 }
